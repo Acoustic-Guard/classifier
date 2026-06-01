@@ -1,0 +1,35 @@
+import logging
+from pb.classifier.v1 import classifier_pb2
+from pb.classifier.v1 import classifier_pb2_grpc
+
+
+class AudioClassifierServicer(classifier_pb2_grpc.AudioClassifierServicer):
+    def Classify(self, request, context):
+        peak_db = request.peak_db
+        fft_bins = request.fft_bins
+
+        threat = "BACKGROUND"
+        confidence = 0.99
+
+        if peak_db > -10.0:
+            threat = "EXPLOSION"
+            confidence = 0.95
+
+        elif peak_db > -30.0 and len(fft_bins) > 0:
+            low_freq_energy = sum(fft_bins[:10])
+            high_freq_energy = sum(fft_bins[10:])
+
+            if low_freq_energy > high_freq_energy * 1.5:
+                threat = "UAV"
+                confidence = 0.88
+            else:
+                threat = "BACKGROUND"
+                confidence = 0.75
+
+        logging.info(f"Sensor: {request.sensor_id} | Peak DB: {peak_db:.2f} | Result: {threat}")
+
+        return classifier_pb2.ClassificationResponse(
+            threat_type=threat,
+            confidence=confidence,
+            model_ver="heuristic-v1.0"
+        )
