@@ -1,3 +1,6 @@
 grpcio
 grpcio-tools
 python-dotenv
+numpy
+scikit-learn
+joblib
