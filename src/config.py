@@ -13,4 +13,5 @@ class Config:
     UAV_THRESHOLD_DB = float(os.getenv("UAV_THRESHOLD_DB", "-30.0"))
     UAV_FREQ_MULTIPLIER = float(os.getenv("UAV_FREQ_MULTIPLIER", "1.5"))
 
-    MODEL_VERSION = os.getenv("MODEL_VERSION", "heuristic-v1.1")
+    MODEL_PATH = os.getenv("MODEL_PATH", "models/random_forest_v1.joblib")
+    MODEL_VERSION = os.getenv("MODEL_VERSION", "rf-v1.0")
