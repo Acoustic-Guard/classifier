@@ -1,6 +1,6 @@
 import logging
-from pb.classifier.v1 import classifier_pb2
-from pb.classifier.v1 import classifier_pb2_grpc
+from classifier.v1 import classifier_pb2
+from classifier.v1 import classifier_pb2_grpc
 from config import Config
 
 logger = logging.getLogger(__name__)

@@ -3,7 +3,7 @@ from concurrent import futures
 import logging
 import sys
 
-from pb.classifier.v1 import classifier_pb2_grpc
+from classifier.v1 import classifier_pb2_grpc
 from service import AudioClassifierServicer
 from config import Config
 
