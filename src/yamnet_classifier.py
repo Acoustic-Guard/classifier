@@ -10,20 +10,19 @@ logger = logging.getLogger(__name__)
 
 # ── YAMNet AudioSet class index → threat label ───────────────────────────────
 EXPLOSION_INDICES = frozenset([
-    395,  # Thunder
     420,  # Gunshot, gunfire
     426,  # Gunshot, gunfire
     427,  # Explosion
     428,  # Gunshot, gunfire
-    429,  # Artillery fire
     430,  # Burst, pop
     431,  # Fusillade
     432,  # Burst, pop
     476,  # Boom
+    494,  # Explosion
 ])
 
 UAV_INDICES = frozenset([
-    132,  # Truck
+    395,  # Thunder
     137,  # Moped
     351,  # Chainsaw
     352,  # Power tool
@@ -34,27 +33,28 @@ UAV_INDICES = frozenset([
 ])
 
 SIREN_INDICES = frozenset([
+    390,  # Siren
+    312,  # Horn
     319,  # Siren
     320,  # Civil defense siren
     321,  # Air raid siren
     322,  # Alarm
     323,  # Fire alarm
-    390,  # Siren
 ])
 
 TRUCK_INDICES = frozenset([
+    302,  # Horn
+    132,  # Truck
     134,  # Bus
     135,  # Car
-    312,  # Horn
-    313,  # Horn
     393,  # Horn
 ])
 
 GENERATOR_INDICES = frozenset([
+    294,  # Generator
     130,  # Engine
     131,  # Motor
     133,  # Machinery
-    294,  # Generator
 ])
 
 YAMNET_SR = 16_000  # YAMNet очікує 16 kHz
