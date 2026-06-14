@@ -30,6 +30,7 @@ UAV_INDICES = frozenset([
     355,  # Power saw
     382,  # Lawn mower
     384,  # Trimmer
+    132,  # Truck
 ])
 
 SIREN_INDICES = frozenset([
@@ -44,7 +45,6 @@ SIREN_INDICES = frozenset([
 
 TRUCK_INDICES = frozenset([
     302,  # Horn
-    132,  # Truck
     134,  # Bus
     135,  # Car
     393,  # Horn

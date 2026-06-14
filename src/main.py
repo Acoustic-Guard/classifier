@@ -1,7 +1,8 @@
 import grpc
-from concurrent import futures
+import signal
 import logging
 import sys
+from concurrent import futures
 
 from classifier.v1 import classifier_pb2_grpc
 from service import AudioClassifierServicer
@@ -31,6 +32,17 @@ def serve():
     logger.info(f"Config: EXPLOSION_DB > {Config.EXPLOSION_THRESHOLD_DB}, UAV_DB > {Config.UAV_THRESHOLD_DB}")
 
     server.start()
+    
+    # Graceful shutdown handler
+    def shutdown_handler(signum, frame):
+        logger.info(f"Received signal {signum}, initiating graceful shutdown...")
+        server.stop(grace=None)
+        logger.info("gRPC server stopped gracefully")
+        sys.exit(0)
+    
+    signal.signal(signal.SIGTERM, shutdown_handler)
+    signal.signal(signal.SIGINT, shutdown_handler)
+
     server.wait_for_termination()
 
 
