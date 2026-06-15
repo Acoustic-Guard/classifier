@@ -28,8 +28,16 @@ except Exception as exc:
 
 
 class AudioClassifierServicer(classifier_pb2_grpc.AudioClassifierServicer):
+    """
+    gRPC Servicer for handling incoming audio classification requests.
+    Routes requests to either the YAMNet model (for raw audio) or the Custom RF model (for FFT data).
+    """
 
     def Classify(self, request, context):
+        """
+        Main entry point for the Classify RPC.
+        Determines the payload type (raw vs FFT) and routes it to the appropriate model.
+        """
         has_raw = len(request.raw_audio) > 0
         has_fft = len(request.fft_bins) > 0
 
@@ -51,6 +59,10 @@ class AudioClassifierServicer(classifier_pb2_grpc.AudioClassifierServicer):
         )
 
     def _classify_raw(self, request):
+        """
+        Processes raw audio streams using the TensorFlow Lite YAMNet model.
+        Returns the predicted threat, confidence, and model version.
+        """
         try:
             return yamnet_classifier.classify(list(request.raw_audio))
         except Exception as e:
@@ -58,6 +70,10 @@ class AudioClassifierServicer(classifier_pb2_grpc.AudioClassifierServicer):
             return "BACKGROUND", 0.99, "error-yamnet"
 
     def _classify_fft(self, request):
+        """
+        Processes pre-computed FFT bins using the scikit-learn Random Forest model.
+        Normalizes the FFT features before running inference.
+        """
         if not _rf_model:
             return "BACKGROUND", 0.99, "error-rf-missing"
 

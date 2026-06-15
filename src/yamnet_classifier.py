@@ -61,8 +61,8 @@ GENERATOR_INDICES = frozenset([
     133,  # Machinery
 ])
 
-YAMNET_SR = 16_000  # YAMNet очікує 16 kHz
-EDGE_SR = 44_100  # Агент надсилає 44.1 kHz
+YAMNET_SR = 16_000  # YAMNet expects 16 kHz
+EDGE_SR = 44_100  # Agent sends 44.1 kHz
 MODEL_VERSION = "yamnet-tflite-v1"
 
 # ── Resampling constants ─────────────────────────────────────────────────────
@@ -79,7 +79,7 @@ def _resample(samples_i16: np.ndarray) -> np.ndarray:
 
 class _YAMNetModel:
     def __init__(self, model_path: str):
-        # Використовуємо вбудований tflite інтерпретатор з tensorflow
+        # Use built-in tflite interpreter from tensorflow
         self._interp = tf.lite.Interpreter(model_path=model_path)
         self._interp.allocate_tensors()
 
@@ -89,8 +89,8 @@ class _YAMNetModel:
         self._input_idx = in_details[0]["index"]
         self._input_shape = in_details[0]["shape"]
 
-        # YAMNet повертає 3 масиви: scores, embeddings, spectrogram
-        # Нам потрібен тільки перший (scores)
+        # YAMNet returns 3 arrays: scores, embeddings, spectrogram
+        # We only need the first one (scores)
         self._scores_idx = out_details[0]["index"]
 
     def predict(self, waveform_f32: np.ndarray) -> np.ndarray:
@@ -127,7 +127,7 @@ def load(model_path: str) -> None:
 
 
 def classify_scores(scores: np.ndarray) -> tuple[str, float]:
-    """Приймає 521 ймовірність і повертає фінальний клас та впевненість"""
+    """Takes 521 probabilities and returns the final class and confidence"""
     # Log raw prediction for debugging
     top_index = int(np.argmax(scores))
     max_prob = float(scores[top_index])

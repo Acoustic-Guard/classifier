@@ -10,6 +10,10 @@ from config import Config
 
 
 def setup_logging():
+    """
+    Configures the application's logging based on the environment configuration.
+    Sets up a stream handler to output logs to standard out.
+    """
     numeric_level = getattr(logging, Config.LOG_LEVEL, logging.INFO)
     logging.basicConfig(
         level=numeric_level,
@@ -19,6 +23,10 @@ def setup_logging():
 
 
 def serve():
+    """
+    Initializes and starts the gRPC server for the Audio Classifier.
+    Registers the Servicer, binds the port, and handles graceful shutdowns on OS signals.
+    """
     setup_logging()
     logger = logging.getLogger(__name__)
 
