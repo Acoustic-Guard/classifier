@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 # ── YAMNet AudioSet class index → threat label ───────────────────────────────
 EXPLOSION_INDICES = frozenset([
     420,  # Gunshot, gunfire
+    424,  # Artillery fire / Explosion
     426,  # Gunshot, gunfire
     427,  # Explosion
     428,  # Gunshot, gunfire
@@ -44,10 +45,13 @@ SIREN_INDICES = frozenset([
 ])
 
 TRUCK_INDICES = frozenset([
-    302,  # Horn
-    134,  # Bus
-    135,  # Car
-    393,  # Horn
+    300,  # Motor vehicle (road)
+    301,  # Car
+    302,  # Vehicle horn, car horn, honking
+    310,  # Truck
+    312,  # Air horn, truck horn
+    315,  # Bus
+    325,  # Train horn
 ])
 
 GENERATOR_INDICES = frozenset([
